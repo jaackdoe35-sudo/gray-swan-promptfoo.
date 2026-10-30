@@ -1,0 +1,13 @@
+description: "Gray Swan browser-only manual evaluation; no live API target"
+prompts:
+  - "{{operator_task}}"
+
+providers:
+  - id: promptfoo:manual-input
+    config:
+      multiline: true
+
+tests: file://tests/manual_cases.yaml
+
+# Keep one interactive case at a time. The manual provider is not an automated
+# Gray Swan connector and cannot observe tool calls or arena-side effects.
