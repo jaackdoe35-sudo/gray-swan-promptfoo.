@@ -1,0 +1,16 @@
+# Local evaluation output and evidence
+.promptfoo/
+.results/
+results/
+evidence/runs/
+*.local.json
+
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
