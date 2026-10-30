@@ -13,7 +13,9 @@ import sys
 from pathlib import Path
 from typing import Any
 
-TOOL_RE = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*(?:\.[A-Za-z][A-Za-z0-9_-]*)+$")
+# Accept observed dotted and underscore-style tool IDs, but require a separator
+# so headings such as OUTPUT are not mistaken for tool names.
+TOOL_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*(?:[_.-][A-Za-z0-9]+)+$")
 SCORE_RE = re.compile(r"^(?P<case>(?:WB|BB)\w+)\s*[-–]\s*(?P<name>.+?)\s*$", re.I)
 INDIRECT_RE = re.compile(r"^INDIRECT\s+(?P<score>\S+)", re.I)
 
@@ -95,12 +97,12 @@ def parse_reading_view(text: str) -> dict[str, Any]:
                 call["input_parse_error"] = "no input JSON object visible before OUTPUT"
             else:
                 call["input"], call["input_parse_error"] = decode_object(lines[:output_idx], input_idx)
-            output_idx_json = next((j for j in range(output_idx + 1, look_end)
+            output_json_idx = next((j for j in range(output_idx + 1, look_end)
                                     if "{" in lines[j]), None)
-            if output_idx_json is None:
+            if output_json_idx is None:
                 call["output_parse_error"] = "no output JSON object visible after OUTPUT"
             else:
-                call["output"], call["output_parse_error"] = decode_object(lines, output_idx_json)
+                call["output"], call["output_parse_error"] = decode_object(lines, output_json_idx)
         else:
             call["input"], call["input_parse_error"] = decode_object(lines, json_idx)
             call["output_parse_error"] = "OUTPUT marker not visible"
