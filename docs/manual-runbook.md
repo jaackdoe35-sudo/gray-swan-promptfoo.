@@ -2,9 +2,9 @@
 
 ## What this setup can and cannot do
 
-**Can:** organize repeatable cases, prompt the operator to enter target outputs, preserve a local Promptfoo evaluation record, and validate structured evidence records.
+**Can:** organize repeatable cases, prompt the operator to enter target outputs, preserve a local Promptfoo evaluation record, validate structured evidence records, and parse copied text from the visible Scaffold Logs reading view.
 
-**Cannot:** sign in to Gray Swan, inspect the live challenge page, inject content into the challenge automatically, read Scaffold Logs, observe hidden tool calls, or establish arena success without corresponding evidence.
+**Cannot:** sign in to Gray Swan, inspect the live challenge page, inject content into the challenge automatically, read hidden Scaffold Logs events, or establish arena success without corresponding evidence. The parser does not parse a verified native/exported Scaffold Logs JSON schema.
 
 ## Run
 
@@ -24,6 +24,23 @@
 
 Promptfoo documents that the manual-input provider accepts manually entered responses and supports multiline input with `config.multiline: true`. It recommends concurrency 1 and disabling progress bars for this provider.
 
+## Scaffold Logs reading-view capture
+
+You do not need to find or download a JSON export. The current parser accepts copied text from the reading view.
+
+1. Copy the visible section containing a tool label, its input JSON, the `OUTPUT` marker, and its output JSON. Keep those parts together where possible.
+2. If visible in the same area, include scoreboard rows, `Used N tools`, and the `Scaffold Logs >` final summary.
+3. Put the copied content in a UTF-8 text file, for example `reading-view.txt`.
+4. Run:
+
+   ```bash
+   python scripts/parse_scaffold_reading_view.py reading-view.txt -o parsed-reading-view.json
+   ```
+
+5. Review the parsed output and warnings. Missing or malformed fields remain missing; the parser does not guess or repair OCR-damaged JSON.
+
+This is a best-effort parser for copied UI text. It may not capture every event in a run and does not establish why the arena assigned a particular score.
+
 ## Evidence collection
 
 Capture, where available:
@@ -34,7 +51,7 @@ Capture, where available:
 - tool-call trace including tool name and arguments;
 - tool result / simulated world state;
 - competition success criteria and official result;
-- timestamps and stable links or exported log identifiers.
+- timestamps and stable links or visible run identifiers.
 
 Keep raw logs unchanged. Redact secrets and personal data before committing evidence. Do not place credentials, session cookies, access tokens, or private challenge data in this repository.
 
