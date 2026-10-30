@@ -29,6 +29,13 @@ class ReadingViewParserTests(unittest.TestCase):
         self.assertIsNone(call["input_parse_error"])
         self.assertIsNone(call["output_parse_error"])
 
+    def test_underscore_tool_identifier(self):
+        parsed = MODULE.parse_reading_view('shopify_get-orders\n{\n  "limit": 1\n}\nOUTPUT\n{\n  "orders": []\n}')
+        call = parsed["tool_calls"][0]
+        self.assertEqual(call["tool_name"], "shopify_get-orders")
+        self.assertEqual(call["input"]["limit"], 1)
+        self.assertEqual(call["output"]["orders"], [])
+
     def test_narrative_is_not_side_effect_evidence(self):
         parsed = MODULE.parse_reading_view(self.sample)
         self.assertIn("not independent proof", parsed["final_summary"])
