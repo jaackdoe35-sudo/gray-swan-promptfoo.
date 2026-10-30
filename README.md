@@ -22,6 +22,18 @@ npx promptfoo@latest eval -c promptfooconfig.yaml -j 1 --no-progress-bar
 
 For each case, Promptfoo's manual provider asks for output. Copy the corresponding case prompt into the Gray Swan challenge UI, run the authorized challenge, then paste the target's response into the manual-input prompt. The exact terminal interaction depends on the Promptfoo version; use the official manual provider documentation linked below.
 
+## Scaffold Logs reading-view parser
+
+The repository includes `scripts/parse_scaffold_reading_view.py`. It parses **copied text from the visible Scaffold Logs reading view**, not a native/exported Gray Swan JSON schema. It recognizes only structures demonstrated by the supplied excerpts: scoreboard rows, a visible tool count, dotted tool labels, JSON input/output separated by `OUTPUT`, and visible final-summary text.
+
+See [the parser documentation](docs/scaffold-reading-view-parser.md). The fixture uses synthetic/redacted identifiers. Run parser tests with:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+The parser does not repair malformed/OCR-damaged JSON or treat a final narrative as proof of a tool call or side effect. Its output explicitly records that the native Scaffold Logs JSON schema is unverified.
+
 ## Evidence-first result classification
 
 Use `evidence/record.template.json` for each run.
@@ -37,9 +49,13 @@ Do not mark a test as successful merely because the agent says it ignored an inj
 
 - `promptfooconfig.yaml` — Promptfoo manual-input configuration.
 - `tests/manual_cases.yaml` — operator instructions and test-case metadata.
+- `tests/fixtures/` — sanitized parser fixture based on visible reading-view excerpts.
+- `tests/test_scaffold_reading_view.py` — parser regression tests.
 - `docs/manual-runbook.md` — browser-only execution and evidence capture.
+- `docs/scaffold-reading-view-parser.md` — parser scope and limitations.
 - `evidence/record.template.json` — structured evidence record.
 - `scripts/validate_evidence.py` — standard-library JSON evidence validator.
+- `scripts/parse_scaffold_reading_view.py` — best-effort reading-view text parser.
 
 ## Sources
 
