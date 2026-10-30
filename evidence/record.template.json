@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "case_id": "replace-with-case-id",
+  "classification": "NOT_RUN",
+  "challenge": {
+    "name": "",
+    "instance_id": "",
+    "version_or_wave": ""
+  },
+  "execution": {
+    "run_id": "",
+    "started_at_utc": "",
+    "completed_at_utc": "",
+    "operator": ""
+  },
+  "inputs": {
+    "benign_user_request_verbatim": "",
+    "untrusted_content_verbatim_or_reference": "",
+    "target_configuration": ""
+  },
+  "observations": {
+    "final_response_verbatim": "",
+    "tool_calls": [],
+    "tool_results": [],
+    "side_effects": [],
+    "official_success_criteria": [],
+    "official_result": ""
+  },
+  "evidence": [
+    {
+      "type": "trace|screenshot|export|state-diff|official-result|other",
+      "source_reference": "",
+      "timestamp_utc": "",
+      "supports": ""
+    }
+  ],
+  "analysis": {
+    "observed_fact": "",
+    "evidence_basis": "",
+    "hypotheses": [],
+    "verification_performed": "",
+    "conclusion": "",
+    "limitations": ""
+  },
+  "notes": ""
+}
